@@ -29,60 +29,88 @@ const Index = () => {
         </div>
 
         {/* Game Cards */}
-        <div className="grid md:grid-cols-2 gap-6 max-w-3xl mx-auto mb-12">
+        <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto mb-12">
           {/* Slot Machine Card */}
           <Link
             to="/slots"
-            className="group relative bg-card border border-primary/30 rounded-2xl p-8 hover:border-primary/60 transition-all hover:vegas-glow"
+            className="group relative bg-card border border-primary/30 rounded-2xl p-6 hover:border-primary/60 transition-all hover:vegas-glow"
           >
             <div className="absolute top-4 right-4 px-3 py-1 gold-gradient rounded-full">
               <span className="text-xs font-display text-primary-foreground">HOT</span>
             </div>
-            <div className="flex items-center gap-4 mb-4">
-              <div className="w-16 h-16 rounded-xl bg-primary/20 flex items-center justify-center text-3xl">
+            <div className="flex items-center gap-3 mb-4">
+              <div className="w-14 h-14 rounded-xl bg-primary/20 flex items-center justify-center text-2xl">
                 🎰
               </div>
               <div>
-                <h2 className="text-2xl font-display text-foreground group-hover:text-primary transition-colors">
+                <h2 className="text-xl font-display text-foreground group-hover:text-primary transition-colors">
                   Slot Machine
                 </h2>
-                <p className="text-sm text-muted-foreground">4-Wheel Lucky Cards</p>
+                <p className="text-xs text-muted-foreground">4-Wheel Lucky Cards</p>
               </div>
             </div>
-            <p className="text-muted-foreground mb-4">
-              Spin the reels and match playing cards for big wins. Hit 4 of a kind for the jackpot!
+            <p className="text-sm text-muted-foreground mb-4">
+              Spin the reels and match playing cards for big wins!
             </p>
             <div className="flex items-center justify-between text-sm">
               <span className="text-muted-foreground">Max Win:</span>
-              <span className="text-primary font-semibold">10x Bet</span>
+              <span className="text-primary font-semibold">10x</span>
             </div>
           </Link>
 
           {/* Blackjack Card */}
           <Link
             to="/blackjack"
-            className="group relative bg-card border border-primary/30 rounded-2xl p-8 hover:border-primary/60 transition-all hover:vegas-glow"
+            className="group relative bg-card border border-primary/30 rounded-2xl p-6 hover:border-primary/60 transition-all hover:vegas-glow"
           >
             <div className="absolute top-4 right-4 px-3 py-1 bg-casino-green rounded-full">
               <span className="text-xs font-display text-foreground">CLASSIC</span>
             </div>
-            <div className="flex items-center gap-4 mb-4">
-              <div className="w-16 h-16 rounded-xl bg-accent/20 flex items-center justify-center text-3xl">
+            <div className="flex items-center gap-3 mb-4">
+              <div className="w-14 h-14 rounded-xl bg-accent/20 flex items-center justify-center text-2xl">
                 🃏
               </div>
               <div>
-                <h2 className="text-2xl font-display text-foreground group-hover:text-primary transition-colors">
+                <h2 className="text-xl font-display text-foreground group-hover:text-primary transition-colors">
                   Blackjack
                 </h2>
-                <p className="text-sm text-muted-foreground">Beat the Dealer</p>
+                <p className="text-xs text-muted-foreground">Beat the Dealer</p>
               </div>
             </div>
-            <p className="text-muted-foreground mb-4">
-              Get as close to 21 as possible without going bust. Hit, stand, or double down!
+            <p className="text-sm text-muted-foreground mb-4">
+              Get as close to 21 as possible without going bust!
             </p>
             <div className="flex items-center justify-between text-sm">
-              <span className="text-muted-foreground">Blackjack Pays:</span>
+              <span className="text-muted-foreground">Pays:</span>
               <span className="text-primary font-semibold">3:2</span>
+            </div>
+          </Link>
+
+          {/* Poker Card */}
+          <Link
+            to="/poker"
+            className="group relative bg-card border border-primary/30 rounded-2xl p-6 hover:border-primary/60 transition-all hover:vegas-glow"
+          >
+            <div className="absolute top-4 right-4 px-3 py-1 bg-casino-red rounded-full">
+              <span className="text-xs font-display text-foreground">NEW</span>
+            </div>
+            <div className="flex items-center gap-3 mb-4">
+              <div className="w-14 h-14 rounded-xl bg-casino-red/20 flex items-center justify-center text-2xl">
+                🂡
+              </div>
+              <div>
+                <h2 className="text-xl font-display text-foreground group-hover:text-primary transition-colors">
+                  Texas Hold'em
+                </h2>
+                <p className="text-xs text-muted-foreground">Poker vs Dealer</p>
+              </div>
+            </div>
+            <p className="text-sm text-muted-foreground mb-4">
+              Beat the dealer with the best 5-card poker hand!
+            </p>
+            <div className="flex items-center justify-between text-sm">
+              <span className="text-muted-foreground">Royal Flush:</span>
+              <span className="text-primary font-semibold">250x</span>
             </div>
           </Link>
         </div>
