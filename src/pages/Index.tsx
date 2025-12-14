@@ -24,36 +24,36 @@ const Index = () => {
             Vegas Royale
           </h1>
           <p className="text-lg text-muted-foreground max-w-md mx-auto">
-            Welcome to the most exclusive casino in town. Try your luck at the slots or challenge the dealer at blackjack.
+            Welcome to the most exclusive casino in town. Choose your game and try your luck!
           </p>
         </div>
 
         {/* Game Cards */}
-        <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto mb-12">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 max-w-6xl mx-auto mb-12">
           {/* Slot Machine Card */}
           <Link
             to="/slots"
-            className="group relative bg-card border border-primary/30 rounded-2xl p-6 hover:border-primary/60 transition-all hover:vegas-glow"
+            className="group relative bg-card border border-primary/30 rounded-2xl p-5 hover:border-primary/60 transition-all hover:vegas-glow"
           >
-            <div className="absolute top-4 right-4 px-3 py-1 gold-gradient rounded-full">
-              <span className="text-xs font-display text-primary-foreground">HOT</span>
+            <div className="absolute top-3 right-3 px-2 py-0.5 gold-gradient rounded-full">
+              <span className="text-[10px] font-display text-primary-foreground">HOT</span>
             </div>
-            <div className="flex items-center gap-3 mb-4">
-              <div className="w-14 h-14 rounded-xl bg-primary/20 flex items-center justify-center text-2xl">
+            <div className="flex items-center gap-3 mb-3">
+              <div className="w-12 h-12 rounded-xl bg-primary/20 flex items-center justify-center text-xl">
                 🎰
               </div>
               <div>
-                <h2 className="text-xl font-display text-foreground group-hover:text-primary transition-colors">
-                  Slot Machine
+                <h2 className="text-lg font-display text-foreground group-hover:text-primary transition-colors">
+                  Slots
                 </h2>
-                <p className="text-xs text-muted-foreground">4-Wheel Lucky Cards</p>
+                <p className="text-[10px] text-muted-foreground">4-Wheel Cards</p>
               </div>
             </div>
-            <p className="text-sm text-muted-foreground mb-4">
-              Spin the reels and match playing cards for big wins!
+            <p className="text-xs text-muted-foreground mb-3">
+              Spin and match cards for wins!
             </p>
-            <div className="flex items-center justify-between text-sm">
-              <span className="text-muted-foreground">Max Win:</span>
+            <div className="flex items-center justify-between text-xs">
+              <span className="text-muted-foreground">Max:</span>
               <span className="text-primary font-semibold">10x</span>
             </div>
           </Link>
@@ -61,26 +61,26 @@ const Index = () => {
           {/* Blackjack Card */}
           <Link
             to="/blackjack"
-            className="group relative bg-card border border-primary/30 rounded-2xl p-6 hover:border-primary/60 transition-all hover:vegas-glow"
+            className="group relative bg-card border border-primary/30 rounded-2xl p-5 hover:border-primary/60 transition-all hover:vegas-glow"
           >
-            <div className="absolute top-4 right-4 px-3 py-1 bg-casino-green rounded-full">
-              <span className="text-xs font-display text-foreground">CLASSIC</span>
+            <div className="absolute top-3 right-3 px-2 py-0.5 bg-casino-green rounded-full">
+              <span className="text-[10px] font-display text-foreground">CLASSIC</span>
             </div>
-            <div className="flex items-center gap-3 mb-4">
-              <div className="w-14 h-14 rounded-xl bg-accent/20 flex items-center justify-center text-2xl">
+            <div className="flex items-center gap-3 mb-3">
+              <div className="w-12 h-12 rounded-xl bg-accent/20 flex items-center justify-center text-xl">
                 🃏
               </div>
               <div>
-                <h2 className="text-xl font-display text-foreground group-hover:text-primary transition-colors">
+                <h2 className="text-lg font-display text-foreground group-hover:text-primary transition-colors">
                   Blackjack
                 </h2>
-                <p className="text-xs text-muted-foreground">Beat the Dealer</p>
+                <p className="text-[10px] text-muted-foreground">Beat the Dealer</p>
               </div>
             </div>
-            <p className="text-sm text-muted-foreground mb-4">
-              Get as close to 21 as possible without going bust!
+            <p className="text-xs text-muted-foreground mb-3">
+              Get close to 21 without bust!
             </p>
-            <div className="flex items-center justify-between text-sm">
+            <div className="flex items-center justify-between text-xs">
               <span className="text-muted-foreground">Pays:</span>
               <span className="text-primary font-semibold">3:2</span>
             </div>
@@ -89,28 +89,56 @@ const Index = () => {
           {/* Poker Card */}
           <Link
             to="/poker"
-            className="group relative bg-card border border-primary/30 rounded-2xl p-6 hover:border-primary/60 transition-all hover:vegas-glow"
+            className="group relative bg-card border border-primary/30 rounded-2xl p-5 hover:border-primary/60 transition-all hover:vegas-glow"
           >
-            <div className="absolute top-4 right-4 px-3 py-1 bg-casino-red rounded-full">
-              <span className="text-xs font-display text-foreground">NEW</span>
+            <div className="absolute top-3 right-3 px-2 py-0.5 bg-casino-red rounded-full">
+              <span className="text-[10px] font-display text-foreground">NEW</span>
             </div>
-            <div className="flex items-center gap-3 mb-4">
-              <div className="w-14 h-14 rounded-xl bg-casino-red/20 flex items-center justify-center text-2xl">
+            <div className="flex items-center gap-3 mb-3">
+              <div className="w-12 h-12 rounded-xl bg-casino-red/20 flex items-center justify-center text-xl">
                 🂡
               </div>
               <div>
-                <h2 className="text-xl font-display text-foreground group-hover:text-primary transition-colors">
-                  Texas Hold'em
+                <h2 className="text-lg font-display text-foreground group-hover:text-primary transition-colors">
+                  Poker
                 </h2>
-                <p className="text-xs text-muted-foreground">Poker vs Dealer</p>
+                <p className="text-[10px] text-muted-foreground">Texas Hold'em</p>
               </div>
             </div>
-            <p className="text-sm text-muted-foreground mb-4">
-              Beat the dealer with the best 5-card poker hand!
+            <p className="text-xs text-muted-foreground mb-3">
+              Best 5-card hand wins!
             </p>
-            <div className="flex items-center justify-between text-sm">
-              <span className="text-muted-foreground">Royal Flush:</span>
+            <div className="flex items-center justify-between text-xs">
+              <span className="text-muted-foreground">Royal:</span>
               <span className="text-primary font-semibold">250x</span>
+            </div>
+          </Link>
+
+          {/* Roulette Card */}
+          <Link
+            to="/roulette"
+            className="group relative bg-card border border-primary/30 rounded-2xl p-5 hover:border-primary/60 transition-all hover:vegas-glow"
+          >
+            <div className="absolute top-3 right-3 px-2 py-0.5 bg-primary rounded-full">
+              <span className="text-[10px] font-display text-primary-foreground">NEW</span>
+            </div>
+            <div className="flex items-center gap-3 mb-3">
+              <div className="w-12 h-12 rounded-xl bg-primary/20 flex items-center justify-center text-xl">
+                🎡
+              </div>
+              <div>
+                <h2 className="text-lg font-display text-foreground group-hover:text-primary transition-colors">
+                  Roulette
+                </h2>
+                <p className="text-[10px] text-muted-foreground">European Style</p>
+              </div>
+            </div>
+            <p className="text-xs text-muted-foreground mb-3">
+              Spin the wheel to win!
+            </p>
+            <div className="flex items-center justify-between text-xs">
+              <span className="text-muted-foreground">Straight:</span>
+              <span className="text-primary font-semibold">35x</span>
             </div>
           </Link>
         </div>
