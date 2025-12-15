@@ -2,7 +2,7 @@ import { useState, useCallback } from 'react';
 import { useCasino } from '@/contexts/CasinoContext';
 import BetSelector from '@/components/casino/BetSelector';
 import RouletteWheel from './RouletteWheel';
-import BettingBoard, { BetType } from './BettingBoard';
+import BettingBoard, { BetType, PlacedBet, getBetKey } from './BettingBoard';
 import { Button } from '@/components/ui/button';
 import { soundManager } from '@/utils/sounds';
 import { cn } from '@/lib/utils';
@@ -49,7 +49,7 @@ const calculatePayout = (bet: BetType, result: number): number => {
 const getBetName = (bet: BetType): string => {
   switch (bet.type) {
     case 'straight':
-      return `Number ${bet.number}`;
+      return `#${bet.number}`;
     case 'red':
       return 'Red';
     case 'black':
@@ -63,9 +63,9 @@ const getBetName = (bet: BetType): string => {
     case 'high':
       return '19-36';
     case 'dozen':
-      return bet.dozen === 1 ? '1st Dozen' : bet.dozen === 2 ? '2nd Dozen' : '3rd Dozen';
+      return bet.dozen === 1 ? '1st 12' : bet.dozen === 2 ? '2nd 12' : '3rd 12';
     case 'column':
-      return `Column ${bet.column}`;
+      return `Col ${bet.column}`;
     default:
       return 'Unknown';
   }
@@ -73,26 +73,45 @@ const getBetName = (bet: BetType): string => {
 
 const RouletteGame = () => {
   const { chips, addChips, removeChips } = useCasino();
-  const [bet, setBet] = useState(25);
-  const [selectedBet, setSelectedBet] = useState<BetType | null>(null);
+  const [betAmount, setBetAmount] = useState(25);
+  const [placedBets, setPlacedBets] = useState<PlacedBet[]>([]);
   const [spinning, setSpinning] = useState(false);
   const [result, setResult] = useState<number | null>(null);
   const [gameResult, setGameResult] = useState<{ message: string; won: boolean; winnings: number } | null>(null);
 
-  const spin = useCallback(() => {
-    if (!selectedBet || !removeChips(bet)) return;
+  const totalBetAmount = placedBets.reduce((sum, p) => sum + p.amount, 0);
+
+  const placeBet = useCallback((bet: BetType) => {
+    if (chips < betAmount) return;
     
+    const key = getBetKey(bet);
+    const existingIndex = placedBets.findIndex(p => getBetKey(p.bet) === key);
+    
+    if (existingIndex >= 0) {
+      // Add to existing bet
+      setPlacedBets(prev => prev.map((p, i) => 
+        i === existingIndex ? { ...p, amount: p.amount + betAmount } : p
+      ));
+    } else {
+      // New bet
+      setPlacedBets(prev => [...prev, { bet, amount: betAmount }]);
+    }
+    
+    removeChips(betAmount);
     soundManager.chipPlace();
+  }, [betAmount, chips, placedBets, removeChips]);
+
+  const spin = useCallback(() => {
+    if (placedBets.length === 0) return;
+    
     setSpinning(true);
     setResult(null);
     setGameResult(null);
     
-    // Simulate spinning sound
     const spinInterval = setInterval(() => {
       soundManager.spin();
     }, 100);
     
-    // Determine result after spin
     setTimeout(() => {
       clearInterval(spinInterval);
       const spinResult = Math.floor(Math.random() * 37);
@@ -101,35 +120,47 @@ const RouletteGame = () => {
       
       soundManager.reelStop();
       
-      // Calculate winnings
       setTimeout(() => {
-        const payout = calculatePayout(selectedBet, spinResult);
+        let totalWinnings = 0;
+        const winningBets: string[] = [];
         
-        if (payout > 0) {
-          const winnings = bet + (bet * payout);
-          addChips(winnings);
+        placedBets.forEach(({ bet, amount }) => {
+          const payout = calculatePayout(bet, spinResult);
+          if (payout > 0) {
+            const win = amount + (amount * payout);
+            totalWinnings += win;
+            winningBets.push(getBetName(bet));
+          }
+        });
+        
+        if (totalWinnings > 0) {
+          addChips(totalWinnings);
           soundManager.win();
           setGameResult({
-            message: `${spinResult} - You win!`,
+            message: `${spinResult} - ${winningBets.join(', ')} wins!`,
             won: true,
-            winnings
+            winnings: totalWinnings
           });
         } else {
           soundManager.lose();
           setGameResult({
-            message: `${spinResult} - ${getBetName(selectedBet)} loses`,
+            message: `${spinResult} - No winning bets`,
             won: false,
             winnings: 0
           });
         }
+        
+        setPlacedBets([]);
       }, 500);
     }, 3000);
-  }, [selectedBet, bet, removeChips, addChips]);
+  }, [placedBets, addChips]);
 
-  const clearBet = useCallback(() => {
-    setSelectedBet(null);
+  const clearBets = useCallback(() => {
+    // Refund all bets
+    addChips(totalBetAmount);
+    setPlacedBets([]);
     setGameResult(null);
-  }, []);
+  }, [totalBetAmount, addChips]);
 
   return (
     <div className="flex flex-col items-center gap-6">
@@ -138,11 +169,18 @@ const RouletteGame = () => {
         <RouletteWheel spinning={spinning} result={result} />
         
         <div className="flex flex-col items-center gap-4">
-          {/* Selected bet display */}
-          {selectedBet && (
-            <div className="bg-card border border-primary/30 rounded-xl px-6 py-3 text-center">
-              <p className="text-sm text-muted-foreground">Your Bet</p>
-              <p className="text-xl font-display text-primary">{getBetName(selectedBet)}</p>
+          {/* Placed bets display */}
+          {placedBets.length > 0 && (
+            <div className="bg-card border border-primary/30 rounded-xl px-4 py-3 max-w-xs">
+              <p className="text-sm text-muted-foreground mb-2">Your Bets ({placedBets.length})</p>
+              <div className="flex flex-wrap gap-2">
+                {placedBets.map((p, i) => (
+                  <span key={i} className="bg-primary/20 text-primary px-2 py-1 rounded text-sm">
+                    {getBetName(p.bet)}: {p.amount}
+                  </span>
+                ))}
+              </div>
+              <p className="text-sm text-primary mt-2">Total: {totalBetAmount} chips</p>
             </div>
           )}
           
@@ -164,19 +202,19 @@ const RouletteGame = () => {
           )}
           
           {/* Bet controls */}
-          <BetSelector bet={bet} onBetChange={setBet} maxBet={Math.min(chips, 500)} />
+          <BetSelector bet={betAmount} onBetChange={setBetAmount} maxBet={Math.min(chips, 500)} />
           
           <div className="flex gap-3">
             <Button
               onClick={spin}
-              disabled={spinning || !selectedBet || chips < bet}
+              disabled={spinning || placedBets.length === 0}
               className="gold-gradient text-primary-foreground font-display text-lg px-8 py-6"
             >
               {spinning ? 'Spinning...' : 'Spin'}
             </Button>
             <Button
-              onClick={clearBet}
-              disabled={spinning}
+              onClick={clearBets}
+              disabled={spinning || placedBets.length === 0}
               variant="outline"
               className="border-primary/30 hover:border-primary"
             >
@@ -188,10 +226,10 @@ const RouletteGame = () => {
       
       {/* Betting Board */}
       <div className="w-full max-w-2xl">
-        <h3 className="text-center font-display text-primary mb-3">Place Your Bet</h3>
+        <h3 className="text-center font-display text-primary mb-3">Place Your Bets</h3>
         <BettingBoard
-          selectedBet={selectedBet}
-          onSelectBet={setSelectedBet}
+          placedBets={placedBets}
+          onPlaceBet={placeBet}
           disabled={spinning}
         />
       </div>
