@@ -1,5 +1,8 @@
 import { Link, useLocation } from 'react-router-dom';
 import ChipDisplay from './ChipDisplay';
+import DailyBonus from './DailyBonus';
+import SoundToggle from './SoundToggle';
+import ThemeSelector from './ThemeSelector';
 import { Home, Spade } from 'lucide-react';
 
 const CasinoHeader = () => {
@@ -18,7 +21,14 @@ const CasinoHeader = () => {
           </span>
         </Link>
 
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-2 sm:gap-4">
+          <DailyBonus compact />
+          
+          <div className="flex items-center gap-1">
+            <SoundToggle />
+            <ThemeSelector />
+          </div>
+          
           {!isHome && (
             <Link
               to="/"
@@ -28,6 +38,7 @@ const CasinoHeader = () => {
               <span className="hidden sm:block">Lobby</span>
             </Link>
           )}
+          
           <ChipDisplay />
         </div>
       </div>
