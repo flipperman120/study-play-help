@@ -2,10 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Cinzel:wght@400;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Cinzel:wght@400;600;700&family=Orbitron:wght@400;600;700&display=swap');
 
 @layer base {
-  :root {
+  :root,
+  [data-theme="vegas"] {
     /* Vegas Casino Theme - Dark & Luxurious */
     --background: 0 0% 8%;
     --foreground: 45 100% 95%;
@@ -50,6 +51,90 @@
     --casino-dark: 0 0% 12%;
   }
 
+  [data-theme="neon"] {
+    /* Neon Nights Theme */
+    --background: 260 50% 5%;
+    --foreground: 180 100% 95%;
+
+    --card: 260 40% 10%;
+    --card-foreground: 180 100% 95%;
+
+    --popover: 260 45% 8%;
+    --popover-foreground: 180 100% 95%;
+
+    --primary: 280 100% 60%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 180 100% 50%;
+    --secondary-foreground: 0 0% 5%;
+
+    --muted: 260 30% 18%;
+    --muted-foreground: 180 30% 60%;
+
+    --accent: 320 100% 55%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 280 50% 30%;
+    --input: 260 30% 15%;
+    --ring: 280 100% 60%;
+
+    --casino-gold: 280 100% 60%;
+    --casino-gold-light: 280 100% 75%;
+    --casino-gold-dark: 280 80% 45%;
+    --casino-red: 320 100% 55%;
+    --casino-red-light: 320 100% 65%;
+    --casino-green: 180 100% 40%;
+    --casino-green-light: 180 100% 50%;
+    --casino-felt: 260 40% 15%;
+    --casino-black: 260 50% 5%;
+    --casino-dark: 260 40% 10%;
+  }
+
+  [data-theme="dark"] {
+    /* Dark Red Theme */
+    --background: 0 20% 6%;
+    --foreground: 0 20% 95%;
+
+    --card: 0 20% 10%;
+    --card-foreground: 0 20% 95%;
+
+    --popover: 0 20% 8%;
+    --popover-foreground: 0 20% 95%;
+
+    --primary: 0 80% 55%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 0 50% 35%;
+    --secondary-foreground: 0 20% 95%;
+
+    --muted: 0 15% 18%;
+    --muted-foreground: 0 15% 55%;
+
+    --accent: 0 70% 45%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 0 30% 25%;
+    --input: 0 15% 15%;
+    --ring: 0 80% 55%;
+
+    --casino-gold: 0 80% 55%;
+    --casino-gold-light: 0 80% 70%;
+    --casino-gold-dark: 0 60% 40%;
+    --casino-red: 0 80% 45%;
+    --casino-red-light: 0 80% 55%;
+    --casino-green: 120 40% 30%;
+    --casino-green-light: 120 40% 40%;
+    --casino-felt: 0 25% 15%;
+    --casino-black: 0 20% 6%;
+    --casino-dark: 0 20% 10%;
+  }
+
   .dark {
     --background: 0 0% 8%;
     --foreground: 45 100% 95%;
@@ -91,8 +176,22 @@
     font-family: 'Playfair Display', serif;
   }
 
+  [data-theme="neon"] body,
+  [data-theme="neon"] {
+    font-family: 'Orbitron', sans-serif;
+  }
+
   h1, h2, h3, h4, h5, h6 {
     font-family: 'Cinzel', serif;
+  }
+
+  [data-theme="neon"] h1,
+  [data-theme="neon"] h2,
+  [data-theme="neon"] h3,
+  [data-theme="neon"] h4,
+  [data-theme="neon"] h5,
+  [data-theme="neon"] h6 {
+    font-family: 'Orbitron', sans-serif;
   }
 }
 
@@ -133,6 +232,20 @@
       hsl(0 0% 15%) 90%,
       hsl(0 0% 5%) 100%
     );
+  }
+
+  [data-theme="neon"] .vegas-glow {
+    box-shadow: 
+      0 0 20px hsl(var(--primary) / 0.4),
+      0 0 40px hsl(var(--accent) / 0.3),
+      0 0 60px hsl(var(--secondary) / 0.2);
+  }
+
+  [data-theme="neon"] .vegas-text-glow {
+    text-shadow: 
+      0 0 10px hsl(var(--primary) / 0.6),
+      0 0 20px hsl(var(--accent) / 0.4),
+      0 0 30px hsl(var(--secondary) / 0.2);
   }
 }
 
