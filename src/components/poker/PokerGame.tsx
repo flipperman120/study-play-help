@@ -148,7 +148,7 @@ const evaluateFiveCards = (cards: CardType[]): { rank: number; name: string; mul
 };
 
 const PokerGame = () => {
-  const { chips, addChips, removeChips } = useCasino();
+  const { chips, addChips, removeChips, recordGame } = useCasino();
   const [bet, setBet] = useState(25);
   const [phase, setPhase] = useState<GamePhase>('betting');
   const [deck, setDeck] = useState<CardType[]>([]);
@@ -240,27 +240,31 @@ const PokerGame = () => {
         resultMsg = `You win with ${pHand.name}!`;
         won = true;
         soundManager.win();
+        recordGame('poker', true, winnings - totalBet);
       } else if (dHand.rank < pHand.rank) {
         // Dealer wins
         resultMsg = `Dealer wins with ${dHand.name}`;
         soundManager.lose();
+        recordGame('poker', false, -totalBet);
       } else {
         // Tie - push
         addChips(totalBet);
         winnings = totalBet;
         resultMsg = 'Push - tie game!';
+        recordGame('poker', false, 0);
       }
       
       setResult({ message: resultMsg, won, winnings });
       setPhase('result');
     }, 500);
-  }, [playerCards, dealerCards, communityCards, totalBet, addChips]);
+  }, [playerCards, dealerCards, communityCards, totalBet, addChips, recordGame]);
 
   const fold = useCallback(() => {
     soundManager.lose();
+    recordGame('poker', false, -totalBet);
     setResult({ message: 'You folded', won: false, winnings: 0 });
     setPhase('result');
-  }, []);
+  }, [totalBet, recordGame]);
 
   const newGame = useCallback(() => {
     setPhase('betting');
