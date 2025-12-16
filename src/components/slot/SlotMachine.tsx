@@ -9,7 +9,7 @@ import { cn } from '@/lib/utils';
 const SYMBOLS = ['A♠', 'K♥', 'Q♦', 'J♣', '10♠', '9♥', '8♦', '7♣'];
 
 const SlotMachine = () => {
-  const { chips, addChips, removeChips } = useCasino();
+  const { chips, addChips, removeChips, recordGame } = useCasino();
   const [bet, setBet] = useState(50);
   const [isSpinning, setIsSpinning] = useState(false);
   const [reels, setReels] = useState(['A♠', 'K♥', 'Q♦', 'J♣']);
@@ -74,12 +74,14 @@ const SlotMachine = () => {
               setShowWin(true);
               const winAmount = bet * winResult.multiplier;
               addChips(winAmount);
+              recordGame('slots', true, winAmount - bet);
               if (winResult.multiplier >= 5) {
                 soundManager.bigWin();
               } else {
                 soundManager.win();
               }
             } else {
+              recordGame('slots', false, -bet);
               soundManager.lose();
             }
           }, 200);

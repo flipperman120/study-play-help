@@ -72,7 +72,7 @@ const getBetName = (bet: BetType): string => {
 };
 
 const RouletteGame = () => {
-  const { chips, addChips, removeChips } = useCasino();
+  const { chips, addChips, removeChips, recordGame } = useCasino();
   const [betAmount, setBetAmount] = useState(25);
   const [placedBets, setPlacedBets] = useState<PlacedBet[]>([]);
   const [spinning, setSpinning] = useState(false);
@@ -136,6 +136,7 @@ const RouletteGame = () => {
         if (totalWinnings > 0) {
           addChips(totalWinnings);
           soundManager.win();
+          recordGame('roulette', true, totalWinnings - totalBetAmount);
           setGameResult({
             message: `${spinResult} - ${winningBets.join(', ')} wins!`,
             won: true,
@@ -143,6 +144,7 @@ const RouletteGame = () => {
           });
         } else {
           soundManager.lose();
+          recordGame('roulette', false, -totalBetAmount);
           setGameResult({
             message: `${spinResult} - No winning bets`,
             won: false,

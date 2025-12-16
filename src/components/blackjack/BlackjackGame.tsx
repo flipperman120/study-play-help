@@ -51,7 +51,7 @@ const calculateScore = (cards: CardType[]): number => {
 };
 
 const BlackjackGame = () => {
-  const { chips, addChips, removeChips } = useCasino();
+  const { chips, addChips, removeChips, recordGame } = useCasino();
   const [bet, setBet] = useState(50);
   const [deck, setDeck] = useState<CardType[]>([]);
   const [playerHand, setPlayerHand] = useState<CardType[]>([]);
@@ -145,9 +145,10 @@ const BlackjackGame = () => {
     if (gameState === 'playing' && playerScore > 21) {
       soundManager.bust();
       setMessage('BUST!');
+      recordGame('blackjack', false, -bet);
       setGameState('finished');
     }
-  }, [playerScore, gameState]);
+  }, [playerScore, gameState, bet, recordGame]);
 
   // Dealer's turn
   useEffect(() => {
@@ -176,20 +177,25 @@ const BlackjackGame = () => {
                 setMessage('DEALER BUSTS! YOU WIN!');
                 soundManager.win();
                 addChips(bet * 2);
+                recordGame('blackjack', true, bet);
               } else if (finalPlayerScore === 21 && playerHand.length === 2 && finalDealerScore !== 21) {
                 setMessage('BLACKJACK!');
                 soundManager.blackjack();
                 addChips(bet * 2.5);
+                recordGame('blackjack', true, bet * 1.5);
               } else if (finalPlayerScore > finalDealerScore) {
                 setMessage('YOU WIN!');
                 soundManager.win();
                 addChips(bet * 2);
+                recordGame('blackjack', true, bet);
               } else if (finalPlayerScore < finalDealerScore) {
                 setMessage('DEALER WINS');
                 soundManager.lose();
+                recordGame('blackjack', false, -bet);
               } else {
                 setMessage('PUSH');
                 addChips(bet);
+                recordGame('blackjack', false, 0);
               }
               setGameState('finished');
             }, 300);
